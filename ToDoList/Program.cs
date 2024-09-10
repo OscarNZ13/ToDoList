@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Models;
 
+//Gerarquia de archivos: tree /F C:\Users\Kokarjr13\source\repos\ToDoList\ToDoList
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
