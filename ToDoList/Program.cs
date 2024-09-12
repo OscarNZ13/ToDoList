@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ToDoList.Models;
-
-//Gerarquia de archivos: tree /F C:\Users\Kokarjr13\source\repos\ToDoList\ToDoList
+using ToDoList.DAO.Repositories; // Importar el espacio de nombres adecuado para los repositorios
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +12,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ToDoListContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ToDoListConnection")));
 
+// Registrar el repositorio
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+// Configurar la autenticacion
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+{
+    options.LoginPath = "/Access/Login";
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -27,10 +36,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Usar autenticación y autorización
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Access}/{action=Login}/{id?}");
 
 app.Run();

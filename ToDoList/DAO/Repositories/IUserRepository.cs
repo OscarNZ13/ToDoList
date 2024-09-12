@@ -4,9 +4,11 @@ namespace ToDoList.DAO.Repositories
 {
     public interface IUserRepository
     {
-        User GetById(int id);
+        User GetUserById(int id);
+        Task<User> GetUserByName(string username);
         IEnumerable<User> GetAll();
-        public Boolean Update(User user);
-        public Boolean Delete(int id);
+        public void create(User user);
+        public void Update(User user);
+        public void Delete(int id);
     }
 }
