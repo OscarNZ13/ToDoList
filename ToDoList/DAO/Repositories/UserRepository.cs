@@ -1,4 +1,5 @@
-﻿using ToDoList.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ToDoList.Models;
 
 namespace ToDoList.DAO.Repositories
 {
@@ -11,42 +12,44 @@ namespace ToDoList.DAO.Repositories
             _toDoListContext = toDoListContext;
         }
 
+        //------------------------------------------------------ Metodo para traer todos los usuarios ------------------------------------------------------
         public IEnumerable<User> GetAll()
         {
             return _toDoListContext.Users.ToList();
         }
 
-        public User GetById(int id)
+        //------------------------------------------------------ Metodo para traer usuarios por id ------------------------------------------------------
+        public User GetUserById(int id)
         {
             return _toDoListContext.Users.Find(id);
         }
 
-        public Boolean Update(User user)
+        //------------------------------------------------------ Metodo para traer usuarios por username ------------------------------------------------------
+        public async Task<User> GetUserByName(string UserName)
         {
-            User FindUser = _toDoListContext.Users.Find(user.UserId);
-
-            if (FindUser != null)
-            {
-                _toDoListContext.Update(user);
-                _toDoListContext.SaveChanges();
-                return true;
-            }
-            return false;
+            var SerchUser = await _toDoListContext.Users.FirstOrDefaultAsync(x => x.UserName == UserName);
+            return SerchUser;
         }
 
-        public Boolean Delete(int id)
+        //------------------------------------------------------ Metodo para crear usuarios ------------------------------------------------------
+        public void create(User user)
         {
-            User FindUser = _toDoListContext.Users.Find(id);
+            _toDoListContext.Add(user);
+            _toDoListContext.SaveChanges();
+        }
 
-            if (FindUser != null) 
-            {
-                _toDoListContext.Remove(id);
-                _toDoListContext.SaveChanges();
+        //------------------------------------------------------ Metodo para actualizar usuarios ------------------------------------------------------
+        public void Update(User user)
+        {
+            _toDoListContext.Update(user);
+            _toDoListContext.SaveChanges();
+        }
 
-                return true;
-            }
-
-            return false;
+        //------------------------------------------------------ Metodo para eliminar usuarios por id ------------------------------------------------------
+        public void Delete(int id)
+        {
+            _toDoListContext.Remove(id);
+            _toDoListContext.SaveChanges();
         }
     }
 }
