@@ -42,12 +42,12 @@ namespace ToDoList.Migrations
                         new
                         {
                             RoleId = 1,
-                            RoleName = "Administrador"
+                            RoleName = "Admin"
                         },
                         new
                         {
                             RoleId = 2,
-                            RoleName = "Usuario"
+                            RoleName = "User"
                         });
                 });
 
@@ -71,12 +71,12 @@ namespace ToDoList.Migrations
                         new
                         {
                             StateId = 1,
-                            StateName = "Activo"
+                            StateName = "Active"
                         },
                         new
                         {
                             StateId = 2,
-                            StateName = "Inactivo"
+                            StateName = "Inactive"
                         });
                 });
 
@@ -134,10 +134,10 @@ namespace ToDoList.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserName")
-                        .HasMaxLength(25)
-                        .HasColumnType("nvarchar(25)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
-                    b.Property<string>("UserPasword")
+                    b.Property<string>("UserPassword")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
@@ -151,40 +151,40 @@ namespace ToDoList.Migrations
 
             modelBuilder.Entity("ToDoList.Models.Task", b =>
                 {
-                    b.HasOne("ToDoList.Models.State", "States")
+                    b.HasOne("ToDoList.Models.State", "State")
                         .WithMany("TasksList")
                         .HasForeignKey("StateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ToDoList.Models.User", "Users")
+                    b.HasOne("ToDoList.Models.User", "User")
                         .WithMany("TasksList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("States");
+                    b.Navigation("State");
 
-                    b.Navigation("Users");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ToDoList.Models.User", b =>
                 {
-                    b.HasOne("ToDoList.Models.Role", "Roles")
+                    b.HasOne("ToDoList.Models.Role", "Role")
                         .WithMany("UsersList")
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ToDoList.Models.State", "States")
+                    b.HasOne("ToDoList.Models.State", "State")
                         .WithMany("UsersList")
                         .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Roles");
+                    b.Navigation("Role");
 
-                    b.Navigation("States");
+                    b.Navigation("State");
                 });
 
             modelBuilder.Entity("ToDoList.Models.Role", b =>

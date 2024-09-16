@@ -37,24 +37,26 @@ namespace ToDoList.Models
 
             // Relaciones entre entidades
             modelBuilder.Entity<User>()
-                .HasOne(r => r.Roles)           // Un usuario tiene solo un rol
-                .WithMany(r => r.UsersList)     // Un rol puede tener muchos usuarios
-                .HasForeignKey(r => r.RoleId);  // Definimos la FK hacia Role
+                .HasOne(u => u.Role)              // Un usuario tiene solo un rol
+                .WithMany(r => r.UsersList)      // Un rol puede tener muchos usuarios
+                .HasForeignKey(u => u.RoleId)    // Definimos la FK hacia Role
+                .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict para evitar cascada
 
             modelBuilder.Entity<User>()
-                .HasOne(r => r.States)          // Un usuario tiene solo un estado
-                .WithMany(r => r.UsersList)     // Un estado puede tener muchos usuarios
-                .HasForeignKey(r => r.StateId); // Definimos la FK hacia State
-
-            modelBuilder.Entity<Task>()
-                .HasOne(s => s.States)          // Una tarea tiene solo un estado
-                .WithMany(s => s.TasksList)     // Un estado puede tener muchas tareas
-                .HasForeignKey(r => r.StateId)
+                .HasOne(u => u.State)            // Un usuario tiene solo un estado
+                .WithMany(s => s.UsersList)      // Un estado puede tener muchos usuarios
+                .HasForeignKey(u => u.StateId)   // Definimos la FK hacia State
                 .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict para evitar cascada
 
             modelBuilder.Entity<Task>()
-                .HasOne(t => t.Users)           // Una tarea tiene un usuario
-                .WithMany(u => u.TasksList)     // Un usuario puede tener muchas tareas
+                .HasOne(t => t.State)            // Una tarea tiene solo un estado
+                .WithMany(s => s.TasksList)      // Un estado puede tener muchas tareas
+                .HasForeignKey(t => t.StateId)
+                .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict para evitar cascada
+
+            modelBuilder.Entity<Task>()
+                .HasOne(t => t.User)             // Una tarea tiene un usuario
+                .WithMany(u => u.TasksList)      // Un usuario puede tener muchas tareas
                 .HasForeignKey(t => t.UserId)
                 .OnDelete(DeleteBehavior.Restrict); // Cambiado a Restrict para evitar cascada
 

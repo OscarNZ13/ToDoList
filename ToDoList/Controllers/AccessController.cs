@@ -44,6 +44,10 @@ namespace ToDoList.Controllers
                 return View();
             }
 
+            // Se le asiga un rol y estado por defecto
+            user.RoleId = 2;
+            user.StateId = 1;
+
             // Si el usuario no existe, procedemos a hashear la contraseña y crear el usuario
             string PasswordHashed = _passwordHasher.HashPassword(user, user.UserPassword);
             user.UserPassword = PasswordHashed;
@@ -52,7 +56,7 @@ namespace ToDoList.Controllers
 
             if (user.UserId != 0)
             {
-                return RedirectToAction("Login", "User");
+                return RedirectToAction("Login", "Access");
             }
             else
             {
@@ -115,7 +119,7 @@ namespace ToDoList.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Bienvenida", "Paginas");
+            return RedirectToAction("Login", "Access");
         }
     }
 }

@@ -45,8 +45,8 @@ namespace ToDoList.Migrations
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserName = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
-                    UserPasword = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    UserPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     StateId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -58,13 +58,13 @@ namespace ToDoList.Migrations
                         column: x => x.RoleId,
                         principalTable: "Roles",
                         principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Users_States_StateId",
                         column: x => x.StateId,
                         principalTable: "States",
                         principalColumn: "StateId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -102,8 +102,8 @@ namespace ToDoList.Migrations
                 columns: new[] { "RoleId", "RoleName" },
                 values: new object[,]
                 {
-                    { 1, "Administrador" },
-                    { 2, "Usuario" }
+                    { 1, "Admin" },
+                    { 2, "User" }
                 });
 
             migrationBuilder.InsertData(
@@ -111,8 +111,8 @@ namespace ToDoList.Migrations
                 columns: new[] { "StateId", "StateName" },
                 values: new object[,]
                 {
-                    { 1, "Activo" },
-                    { 2, "Inactivo" }
+                    { 1, "Active" },
+                    { 2, "Inactive" }
                 });
 
             migrationBuilder.CreateIndex(

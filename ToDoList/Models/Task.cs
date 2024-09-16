@@ -9,7 +9,7 @@ namespace ToDoList.Models
 
         [Required]
         [MaxLength(25)]
-        public required string TaskTitle { get; set; }
+        public string TaskTitle { get; set; } = null!;
 
         [Required]
         [MaxLength(255)]
@@ -22,9 +22,9 @@ namespace ToDoList.Models
         public DateTime TaskTimeLimit { get; set; }
 
         public int UserId { get; set; } // clave foránea hacia User
-        public User Users { get; set; } = null!; // relación con User
+        public User User { get; set; } = null!; // relación con User
 
         public int StateId { get; set; } // clave foránea hacia State
-        public State States { get; set; } = null!; // relación con State
+        public State State { get; set; } = null!; // relación con State
     }
 }

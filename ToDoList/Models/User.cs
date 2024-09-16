@@ -15,11 +15,11 @@ namespace ToDoList.Models
         public string? UserPassword { get; set; }
 
         public int RoleId { get; set; } // llave foranea
-        public Role Roles { get; set; } = null!; // Relacion con entidad/tabla roles
+        public Role Role { get; set; } = null!; // Relacion con entidad/tabla roles
 
         public int StateId { get; set; } // llave foranea
-        public State States { get; set; } = null!; // Relacion con entidad/tabla estados 
+        public State State { get; set; } = null!; // Relacion con entidad/tabla estados 
 
-        public ICollection<Task> TasksList { get; set; } = new List<Task> (); // Relacion con entidad/tabla tareas
+        public ICollection<Task> TasksList { get; set; } = new List<Task>(); // Relacion con entidad/tabla tareas
     }
 }

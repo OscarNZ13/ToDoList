@@ -28,19 +28,31 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Resumen de validación -->
                         <form class="text-center" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="row gy-3 gy-md-4 overflow-hidden">
                                 <div class="col-12">
-                                    <label for="email" class="form-label">Username</label>
+                                    <label for="username" class="form-label">Username</label>
                                     <input type="text" class="form-control" placeholder="Username123.." required asp-for="UserName">
+                                    <!-- Mensaje de validación para el campo Username -->
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
                                 </div>
                                 <div class="col-12">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control" placeholder="***..." required asp-for="UserPassword">
+                                    <!-- Mensaje de validación para el campo Password -->
+                                    <span asp-validation-for="UserPassword" class="text-danger"></span>
                                 </div>
+                                @if (ViewData["Mensaje"] != null)
+                                {
+                                    <span class="text-danger">
+                                        @ViewData["Mensaje"]
+                                    </span>
+                                }
                                 <div class="col-12">
                                     <div class="d-grid">
-                                        <button class="btn btn-lg btn-primary" type="submit">Resgistrarme</button>
+                                        <button class="btn btn-lg btn-primary" type="submit">Registrarme</button>
                                     </div>
                                 </div>
                             </div>
@@ -56,5 +68,11 @@
             </div>
         </div>
     </div>
+
+    <!-- Incluir los scripts de validación de ASP.NET Core -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </body>
 </html>

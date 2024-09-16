@@ -8,7 +8,7 @@ namespace ToDoList.Models
         public int RoleId { get; set; }
 
         [Required]
-        public required string RoleName { get; set; }
+        public string RoleName { get; set; } = null!;
 
         public ICollection<User> UsersList { get; set; } = new List<User>(); // Relacion con entidad/tabla usuarios
     }
